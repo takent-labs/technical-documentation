@@ -2,54 +2,48 @@
 
 <br/>
 
-```
+<pre>
   ████████╗ █████╗ ██╗  ██╗███████╗███╗   ██╗████████╗
      ██╔══╝██╔══██╗██║ ██╔╝██╔════╝████╗  ██║╚══██╔══╝
      ██║   ███████║█████╔╝ █████╗  ██╔██╗ ██║   ██║   
      ██║   ██╔══██║██╔═██╗ ██╔══╝  ██║╚██╗██║   ██║   
      ██║   ██║  ██║██║  ██╗███████╗██║ ╚████║   ██║   
      ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝╚═╝  ╚═══╝  ╚═╝   
-```
+</pre>
 
 ---
 
-### `REST API` &nbsp;·&nbsp; `Web` &nbsp;·&nbsp; `Android / iOS` &nbsp;·&nbsp; `Desktop`
+<h3><code>REST API</code> &nbsp;·&nbsp; <code>Web</code> &nbsp;·&nbsp; <code>Android / iOS</code> &nbsp;·&nbsp; <code>Desktop</code></h3>
 
 ---
 
 <br/>
 
-**Backend**
+<sub><b>Backend & Core</b></sub><br>
+![NestJS](https://img.shields.io/badge/nestjs-%23E0234E.svg?style=for-the-badge&logo=nestjs&logoColor=white)
+![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)
+![Prisma](https://img.shields.io/badge/Prisma-3fb950?style=for-the-badge&logo=Prisma&logoColor=white)
+![Swagger](https://img.shields.io/badge/-Swagger-%23Clojure?style=for-the-badge&logo=swagger&logoColor=white)
+![NodeJS](https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white)
 
-![NestJS](https://img.shields.io/badge/NestJS-E0234E?style=flat-square&logo=nestjs&logoColor=white)
-![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=flat-square&logo=typescript&logoColor=white)
-![Prisma](https://img.shields.io/badge/Prisma-2D3748?style=flat-square&logo=prisma&logoColor=white)
-![Swagger](https://img.shields.io/badge/Swagger-85EA2D?style=flat-square&logo=swagger&logoColor=black)
-![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat-square&logo=docker&logoColor=white)
+<sub><b>Frontend Web</b></sub><br>
+![Next.js](https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)
+![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
+![TailwindCSS](https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white)
+![Zustand](https://img.shields.io/badge/Zustand-orange?style=for-the-badge&logo=react&logoColor=white)
 
-**Web**
+<sub><b>Frotend mobile</b></sub><br>
+![Kotlin](https://img.shields.io/badge/kotlin-%237F52FF.svg?style=for-the-badge&logo=kotlin&logoColor=white)
+![C#](https://img.shields.io/badge/c%23-%23239120.svg?style=for-the-badge&logo=c-sharp&logoColor=white)
+![.NET](https://img.shields.io/badge/.NET-512BD4?style=for-the-badge&logo=dotnet&logoColor=white)
+![WinUI](https://img.shields.io/badge/WinUI_3-0078D4?style=for-the-badge&logo=windows&logoColor=white)
 
-![Next.js](https://img.shields.io/badge/Next.js-000000?style=flat-square&logo=nextdotjs&logoColor=white)
-![React](https://img.shields.io/badge/React-20232A?style=flat-square&logo=react&logoColor=61DAFB)
-![TailwindCSS](https://img.shields.io/badge/Tailwind-38B2AC?style=flat-square&logo=tailwind-css&logoColor=white)
-
-**Mobile**
-
-![Kotlin](https://img.shields.io/badge/Kotlin_Multiplatform-7F52FF?style=flat-square&logo=kotlin&logoColor=white)
-![Android Studio](https://img.shields.io/badge/Android_Studio-3DDC84?style=flat-square&logo=android-studio&logoColor=white)
-
-**Desktop**
-
-![C#](https://img.shields.io/badge/C%23-239120?style=flat-square&logo=c-sharp&logoColor=white)
-![.NET](https://img.shields.io/badge/.NET-512BD4?style=flat-square&logo=dotnet&logoColor=white)
-![WinUI](https://img.shields.io/badge/WinUI_3-0078D4?style=flat-square&logo=windows&logoColor=white)
-
-**Infrastructure**
-
-![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=flat-square&logo=postgresql&logoColor=white)
-![Cloudflare](https://img.shields.io/badge/Cloudflare_R2-F38020?style=flat-square&logo=cloudflare&logoColor=white)
-![Neon](https://img.shields.io/badge/Neon-00E599?style=flat-square&logo=neon&logoColor=black)
-![pnpm](https://img.shields.io/badge/pnpm-F69220?style=flat-square&logo=pnpm&logoColor=white)
+<sub><b>Infrastructure & Data</b></sub><br>
+![Postgres](https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
+![Cloudflare](https://img.shields.io/badge/Cloudflare_R2-F38020?style=for-the-badge&logo=Cloudflare&logoColor=white)
+![Neon](https://img.shields.io/badge/Neon-00E599?style=for-the-badge&logo=Neon&logoColor=black)
+![pnpm](https://img.shields.io/badge/pnpm-%234a4a4a.svg?style=for-the-badge&logo=pnpm&logoColor=f69220)
 
 <br/>
 
@@ -60,8 +54,6 @@
 <br/>
 
 </div>
-
----
 
 ## Table of Contents
 
@@ -75,7 +67,7 @@
   - [HTTP methods and REST semantics](#http-methods-and-rest-semantics)
   - [Infrastructure and dockerization](#infrastructure-and-dockerization)
   - [Authentication and critical services](#authentication-and-critical-services)
-  - [Ejemplos de peticiones y respuestas](#ejemplos-de-peticiones-y-respuestas)
+  - [Examples of requests and responses](#examples-of-requests-and-responses)
     - [Sign In](#sing-in)
     - [Create post](#create-post)
   - [Implementation notes](#implementation-notes)
@@ -175,18 +167,41 @@ Selecting the tech stack has been the most critical decision. My priority has be
 
 It is worth noting that, although I have used specific environments for mobile and desktop due to academic requirements, in a real production scenario my choice would have been **React Native** for mobile and **Tauri** for desktop. This decision would allow for total code consistency, sharing types and business logic throughout the entire ecosystem. This would not only make the project more scalable and optimal, but it would also drastically reduce technical debt by unifying the stack under a single high-performance language.
 
-<aside>
 
-[Tecnologías](https://www.notion.so/3338946475c981348329e9e8e05f917b?pvs=21)
+<br/>
 
-</aside>
+<div align="center">
 
-<aside>
-<img src="/icons/info-alternate_gray.svg" alt="/icons/info-alternate_gray.svg" width="40px" />
+| Layer | Technology | Role | Why |
+|:---:|:---|:---|:---|
+| ![](https://img.shields.io/badge/Backend-1a1a2e?style=flat-square) | ![NestJS](https://img.shields.io/badge/NestJS-E0234E?style=flat-square&logo=nestjs&logoColor=white) | Modular REST API framework | Enforces order via TypeScript; replaces Spring Boot to unify the language with the frontend |
+| ![](https://img.shields.io/badge/Backend-1a1a2e?style=flat-square) | ![Node.js](https://img.shields.io/badge/Node.js-339933?style=flat-square&logo=node.js&logoColor=white) | Server-side JS runtime | Non-blocking I/O model; covered in the programme — efficient and sustainable |
+| ![](https://img.shields.io/badge/Backend-1a1a2e?style=flat-square) | ![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=flat-square&logo=typescript&logoColor=white) | Static typing over JavaScript | Prevents runtime errors; promotes SOLID principles and safe refactoring across all layers |
+| ![](https://img.shields.io/badge/Backend-1a1a2e?style=flat-square) | ![Prisma](https://img.shields.io/badge/Prisma-2D3748?style=flat-square&logo=prisma&logoColor=white) | Next-gen ORM | Guarantees data integrity; generates versioned SQL migrations tracked in GitHub |
+| ![](https://img.shields.io/badge/Database-0f3460?style=flat-square) | ![Neon](https://img.shields.io/badge/Neon-00E599?style=flat-square&logo=neon&logoColor=black) | Serverless PostgreSQL | Scales to zero when idle; database branching for safe migration testing |
+| ![](https://img.shields.io/badge/Database-0f3460?style=flat-square) | ![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat-square&logo=docker&logoColor=white) | Containerisation | Eliminates «works on my machine»; identical environment from dev to production |
+| ![](https://img.shields.io/badge/Web-16213e?style=flat-square) | ![Next.js](https://img.shields.io/badge/Next.js-000000?style=flat-square&logo=nextdotjs&logoColor=white) | Full-stack web framework | SSR, SSG, ISR, and API routes in one place; superior SEO and performance |
+| ![](https://img.shields.io/badge/Web-16213e?style=flat-square) | ![React](https://img.shields.io/badge/React-20232A?style=flat-square&logo=react&logoColor=61DAFB) | UI component library | Declarative rendering; automatic XSS escaping; industry-standard ecosystem |
+| ![](https://img.shields.io/badge/Web-16213e?style=flat-square) | ![TailwindCSS](https://img.shields.io/badge/TailwindCSS-38B2AC?style=flat-square&logo=tailwind-css&logoColor=white) | Utility-first CSS framework | Enables rapid, consistent styling without leaving the component file |
+| ![](https://img.shields.io/badge/Mobile-533483?style=flat-square) | ![Kotlin](https://img.shields.io/badge/Kotlin_Multiplatform-7F52FF?style=flat-square&logo=kotlin&logoColor=white) | Shared cross-platform logic | 80 % of business logic, models, and network calls shared between Android and iOS |
+| ![](https://img.shields.io/badge/Mobile-533483?style=flat-square) | ![Android Studio](https://img.shields.io/badge/Android_Studio-3DDC84?style=flat-square&logo=android-studio&logoColor=white) | Official Android IDE | Smart editor, emulator, and Android-specific performance profiling tools |
+| ![](https://img.shields.io/badge/Desktop-1b4332?style=flat-square) | ![C#](https://img.shields.io/badge/C%23-239120?style=flat-square&logo=c-sharp&logoColor=white) | Desktop implementation language | Strongly-typed; eliminates runtime error categories; mature Windows ecosystem |
+| ![](https://img.shields.io/badge/Desktop-1b4332?style=flat-square) | ![Visual Studio](https://img.shields.io/badge/Visual_Studio-5C2D91?style=flat-square&logo=visual-studio&logoColor=white) | Windows desktop IDE | First-class C# / XAML toolchain with integrated XAML designer and debugger |
+| ![](https://img.shields.io/badge/Desktop-1b4332?style=flat-square) | ![WinUI 3](https://img.shields.io/badge/WinUI_3-0078D4?style=flat-square&logo=windows&logoColor=white) | Native Windows UI framework | True native performance; Windows 11 design language with Fluent animations |
+| ![](https://img.shields.io/badge/Storage-7b2d00?style=flat-square) | ![Cloudflare R2](https://img.shields.io/badge/Cloudflare_R2-F38020?style=flat-square&logo=cloudflare&logoColor=white) | Object storage for media | S3-compatible with zero egress fees; pre-signed URLs offload transfers from the API |
+| ![](https://img.shields.io/badge/Network-b5451b?style=flat-square) | ![Cloudflare](https://img.shields.io/badge/Cloudflare_CDN%2FWAF-F38020?style=flat-square&logo=cloudflare&logoColor=white) | CDN, WAF & DDoS mitigation | Hides the server's real IP; blocks malicious traffic at the edge before it hits the API |
+| ![](https://img.shields.io/badge/Hosting-2d3436?style=flat-square) | ![Vercel](https://img.shields.io/badge/Vercel-000000?style=flat-square&logo=vercel&logoColor=white) | Web frontend CI/CD | Every commit triggers a deployment preview; seamless Next.js integration |
+| ![](https://img.shields.io/badge/Hosting-2d3436?style=flat-square) | ![Render](https://img.shields.io/badge/Render-46E3B7?style=flat-square&logo=render&logoColor=black) | REST API hosting | Docker-native deployments; automatic restarts and zero server configuration |
+| ![](https://img.shields.io/badge/Services-6c3483?style=flat-square) | ![Lemon Squeezy](https://img.shields.io/badge/Lemon_Squeezy-FFC107?style=flat-square&logo=lemonsqueezy&logoColor=black) | Payments & subscriptions | Merchant of record — handles VAT and global taxes automatically |
+| ![](https://img.shields.io/badge/Services-6c3483?style=flat-square) | ![Resend](https://img.shields.io/badge/Resend-000000?style=flat-square&logo=resend&logoColor=white) | Transactional email | Modern API, clear delivery logs, and high inbox rate — simpler than SendGrid |
+| ![](https://img.shields.io/badge/DevOps-2c3e50?style=flat-square) | ![Git](https://img.shields.io/badge/Git%20%2F%20GitHub-181717?style=flat-square&logo=github&logoColor=white) | Version control & collaboration | Branching, pull requests, and history audits across all poly-repo clients |
+
+</div>
+
+<br/>
+
 
 Although the mobile and desktop development was carried out in Android Studio and Visual Studio with C# and WinUI, the API architecture is designed to be client-agnostic, facilitating a future migration to React Native/Tauri as mentioned in the introduction.
-
-</aside>
 
 ## REST-API Development
 
@@ -260,10 +275,7 @@ API security is non-negotiable. I have implemented a **Stateless** authenticatio
 - I have developed NestJS **Guards** that intercept requests to private endpoints. If the client does not present a valid token in the `Authorization: Bearer <token>` header, the API automatically denies access.
 - The token contains only the minimum necessary information, such as the `sub` or User ID, avoiding the exposure of sensitive data in network traffic.
 
-### **Ejemplos de peticiones y respuestas**
-
-<aside>
-<img src="/icons/snippet_gray.svg" alt="/icons/snippet_gray.svg" width="40px" />
+### **Examples of requests and responses**
 
 #### Sing In
 
@@ -349,12 +361,9 @@ Connection: close
 }
 ```
 
-</aside>
-
 ---
 
-<aside>
-<img src="/icons/snippet_gray.svg" alt="/icons/snippet_gray.svg" width="40px" />
+
 
 #### Create post
 
@@ -773,7 +782,7 @@ I agree that demanding technical minimums should be established—such as limiti
 
 **My proposal is clear:** define the **"what"** (own backend, multiple clients, security), but allow total freedom in the **"how."** Let the student decide which infrastructure to use and which tech stack they are passionate about. That ability to research and delve deeper on one's own is, ultimately, the most valuable skill we can take into the professional world.
 
-## Resources and Documentation Used
+## Resources and documentation used
 
 ### **Backend & Infrastructure (API-REST)**
 
