@@ -565,52 +565,55 @@ By separating the logic into `commonMain`, I have achieved a software design whe
 > [!TIP]
 > By keeping all shared logic in `commonMain`, a future iOS build requires zero rework of the network, auth, or data layers — only the platform-specific UI needs to be added.
 
-## Desktop application
+## Desktop Application
 
-For the desktop frontend, my goal has been to build a **User Experience** that feels native, secure, and visually consistent with the web platform. I have opted for **WinUI 3 (Windows App SDK)** as the base framework, not only for its deep integration with the Windows 11 design language and modern rendering pipeline, but for its ability to deliver **truly native performance** without the overhead of a web-based shell. This allows the application to feel like a first-class Windows citizen while sharing the same brand identity as the web frontend.
+For the desktop frontend, my goal has been to build a **User Experience** that feels native, secure, and visually consistent with the web platform. I have opted for **WinUI 3 (Windows App SDK)** as the base framework, not only for its deep integration with the Windows 11 design language and modern rendering pipeline, but for its ability to deliver **truly native performance** without the overhead of a web-based shell. This allows the application to feel like a first-class Windows citizen while sharing the same brand identity as the web frontend.
 
 ### Technological justification and design decisions
 
-Based on the design freedom mentioned in the specifications, I have made decisions oriented toward a real world Windows development environment:
+Based on the design freedom mentioned in the specifications, I have made decisions oriented toward a real-world Windows development environment:
 
-- **C# and XAML Ecosystem:** By using C# as the implementation language, I benefit from a strongly typed, mature ecosystem that eliminates entire categories of runtime errors. XAML's declarative UI model allows strict separation between layout and business logic, mirroring the component-based philosophy used on the web side.
-- **High-Level UI/UX:** For the visual design, I have built a custom style system directly in XAML using `ResourceDictionary` entries and `ControlTemplate` overrides with `VisualStateManager`. Rather than relying on the default WinUI control aesthetics — which produce poor contrast on custom color schemes — every interactive element (buttons, tabs, inputs) has hand-crafted hover and press states driven by `ColorAnimation` storyboards, producing smooth `150ms` transitions that match the fluidity expected in a modern social application.
+- **C# and XAML Ecosystem:** By using C# as the implementation language, I benefit from a strongly typed, mature ecosystem that eliminates entire categories of runtime errors. XAML's declarative UI model allows strict separation between layout and business logic, mirroring the component-based philosophy used on the web side.
+- **High-Level UI/UX:** For the visual design, I have built a custom style system directly in XAML using `ResourceDictionary` entries and `ControlTemplate` overrides with `VisualStateManager`. Rather than relying on the default WinUI control aesthetics — which produce poor contrast on custom color schemes — every interactive element (buttons, tabs, inputs) has hand-crafted hover and press states driven by `ColorAnimation` storyboards, producing smooth `150ms` transitions that match the fluidity expected in a modern social application.
+- **Brand consistency:** The desktop palette directly mirrors the web CSS variables: warm cream `#FFF7ED` as the base background, charcoal `#292524` as the primary action color, and terracotta `#B55A4A` for destructive and error states. Corner radii, spacing, and typography weight choices are intentionally aligned with the web counterpart so the product feels like a unified family across platforms.
 
 ### Project structure and patterns
 
-I have organized the code following a **separation of concerns** pattern, isolating HTTP communication, secure storage, and UI logic into distinct layers:
-
+I have organized the code following a **separation of concerns** pattern, isolating HTTP communication, secure storage, and UI logic into distinct layers:
 ```
 takent-desktop-app/
 ├── Services/
-│   └── AuthService.cs          # HTTP client + PasswordVault token management
-├── MainWindow.xaml             # Declarative UI: auth forms + home panel
+│   ├── AuthService.cs          # HTTP client + PasswordVault token management
+│   └── PostService.cs          # HTTP client for post creation and feed retrieval
+├── Models/
+│   └── Post.cs                 # Typed model + display-ready computed properties
+├── Converters/
+│   └── StringToVisibilityConverter.cs  # XAML binding utility
+├── MainWindow.xaml             # Declarative UI: auth forms + feed + post composer
 ├── MainWindow.xaml.cs          # Code-behind: event handlers + view state logic
-├── App.xaml                    # Application entry point + global resources
+├── App.xaml                    # Application entry point
 ├── App.xaml.cs                 # App lifecycle (window initialization)
 └── Package.appxmanifest        # Windows App SDK package identity + capabilities
 ```
 
-- **/Services:** The `AuthService` class acts as the single source of truth for all authentication logic. It owns the `HttpClient`instance (shared as a static singleton to avoid socket exhaustion), handles JSON serialization with `System.Text.Json`, and manages the complete token lifecycle from reception to secure storage and deletion.
-- **MainWindow:** Divided into a declarative XAML layout file and its code-behind counterpart. The XAML owns all visual structure and style definitions; the code-behind exclusively handles UI state transitions (loading, error, authenticated) and delegates all business logic calls to `AuthService`.
-- **App.xaml:** Holds no global resources in this MVP (resources are scoped to the root `Grid` to avoid WinUI 3's `Window.Resources` limitation), but serves as the standard application entry point for window instantiation.
+- **/Services:** Each service class owns a single domain of responsibility. `AuthService` manages the complete authentication lifecycle — HTTP requests to `/api/v1/auth/sign-in` and `/api/v1/auth/sign-up`, JWT reception, secure storage, session recovery on launch, and logout. `PostService` handles all post-related API calls — fetching the global feed from `GET /api/v1/posts` and submitting new posts to `POST /api/v1/posts`, including automatic hashtag extraction from inline `#tags` in the post content. Both services share their `HttpClient` instances as static singletons to avoid socket exhaustion.
+- **/Models:** The `Post` class maps the API JSON response using `System.Text.Json` property name attributes. It also exposes computed display properties (`AuthorDisplay`, `UsernameDisplay`, `DateDisplay`, `HashtagsDisplay`) that are consumed directly by XAML data bindings without any transformation logic in the code-behind.
+- **/Converters:** `StringToVisibilityConverter` is a standard `IValueConverter` implementation that collapses UI elements when their bound string is empty — used to conditionally show the hashtag row on post cards.
+- **MainWindow:** Divided into a declarative XAML layout file and its code-behind counterpart. The XAML owns all visual structure, style definitions, and the `DataTemplate` for post cards rendered by `ItemsControl`. The code-behind exclusively handles UI state transitions and delegates all business logic to the service layer.
 
 ### Connection with the API and data security
 
 The communication architecture prioritizes security and resilience at every layer:
 
-- **Typed HTTP client (`AuthService`):** All API communication is handled through a single `HttpClient` instance with a configured `BaseAddress` and a 15-second timeout. Request bodies are serialized to JSON using `System.Text.Json` and sent with `Content-Type: application/json` headers, matching exactly what the NestJS backend expects.
-- **Structured error handling:** Every network call is wrapped in a `try/catch` that distinguishes between timeout errors (`TaskCanceledException`), HTTP-level failures (non-2xx responses), and malformed API responses. NestJS error payloads (which include a `message` field) are deserialized and surfaced directly to the user in a styled error banner, rather than exposing raw HTTP status codes.
-- **Secure token storage (`PasswordVault`):** Complying with Windows security best practices, JWT tokens are **never stored in plain text** — not in application settings, files, or memory beyond the request scope. Instead, they are persisted exclusively via `Windows.Security.Credentials.PasswordVault`, which encrypts credentials using the Windows Data Protection API (DPAPI), binding them to the user's Windows account. This ensures the token is inaccessible to other users or processes on the same machine.
-- **Session persistence:** On every application launch, `AuthService.GetStoredToken()` queries the `PasswordVault` before rendering the authentication forms. If a valid token is found, the application navigates directly to the home panel, eliminating unnecessary re-authentication and matching the seamless session behavior of the web frontend's HttpOnly cookie strategy.
+- **Typed HTTP clients:** All API communication targets `http://localhost:3001/api/v1`. Request bodies are serialized to JSON using `System.Text.Json` and sent with `Content-Type: application/json` headers. Authenticated requests attach the stored JWT as a `Bearer` token via the `Authorization` header, injected centrally in `PostService.AttachToken()` so no token-handling logic leaks into the UI layer.
+- **Structured error handling:** Every network call is wrapped in a `try/catch` that distinguishes between timeout errors (`TaskCanceledException`), HTTP-level failures (non-2xx responses), and malformed API responses. NestJS error payloads (which include a `message` field) are deserialized and surfaced directly to the user in a styled error banner, rather than exposing raw HTTP status codes.
+- **Secure token storage (`PasswordVault`):** Complying with Windows security best practices, JWT tokens are **never stored in plain text** — not in application settings, files, or memory beyond the request scope. Instead, they are persisted exclusively via `Windows.Security.Credentials.PasswordVault`, which encrypts credentials using the Windows Data Protection API (DPAPI), binding them to the user's Windows account. This ensures the token is inaccessible to other users or processes on the same machine.
+- **Session persistence:** On every application launch, `AuthService.GetStoredToken()` queries the `PasswordVault` before rendering the authentication forms. If a valid token is found, the application navigates directly to the feed, eliminating unnecessary re-authentication and matching the seamless session behavior of the web frontend's HttpOnly cookie strategy.
+- **Feed updates:** After a post is successfully created, the returned `Post` object is inserted at position zero of the `ObservableCollection<Post>` bound to the feed's `ItemsControl`, making the new post appear instantly at the top without triggering a full feed reload. If the API does not return the created post in its response body, a full `GET /api/v1/posts` reload is performed as a fallback.
 
-### Technology used
+### Animations and native feel
 
-I chose **WinUI 3** because it is the evolution of Microsoft interfaces. It allows me to use **XAML** for the UI design (separating visuals from behavior) and **C#** for all the logic.
-
-- **Performance:** Being native, resource consumption is highly efficient for an app that shouldn't devour the user's RAM.
-- **Aesthetics:** Integration with the operative system is seamless, including transparencies, animations, and controls that follow the Windows 11 design language.
-
+To make the application feel polished and responsive, every interactive control uses `VisualStateManager` storyboards with `ColorAnimation` transitions. Button hover states respond in `150ms`, press states in `80ms`, and input focus triggers a border color shift from `#E5DDD4` to `#292524` via WinUI 3's built-in `TextControlBorderBrushFocused` theme resource — producing micro-interactions that elevate the perceived quality of the interface without relying on third-party animation libraries.
 ---
 
 ## Security and data protection
