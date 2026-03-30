@@ -1,4 +1,132 @@
-# technical-documentation
+<div align="center">
+
+<br/>
+
+```
+  ████████╗ █████╗ ██╗  ██╗███████╗███╗   ██╗████████╗
+     ██╔══╝██╔══██╗██║ ██╔╝██╔════╝████╗  ██║╚══██╔══╝
+     ██║   ███████║█████╔╝ █████╗  ██╔██╗ ██║   ██║   
+     ██║   ██╔══██║██╔═██╗ ██╔══╝  ██║╚██╗██║   ██║   
+     ██║   ██║  ██║██║  ██╗███████╗██║ ╚████║   ██║   
+     ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝╚═╝  ╚═══╝  ╚═╝   
+```
+
+---
+
+### `REST API` &nbsp;·&nbsp; `Web` &nbsp;·&nbsp; `Android / iOS` &nbsp;·&nbsp; `Desktop`
+
+---
+
+<br/>
+
+**Backend**
+
+![NestJS](https://img.shields.io/badge/NestJS-E0234E?style=flat-square&logo=nestjs&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=flat-square&logo=typescript&logoColor=white)
+![Prisma](https://img.shields.io/badge/Prisma-2D3748?style=flat-square&logo=prisma&logoColor=white)
+![Swagger](https://img.shields.io/badge/Swagger-85EA2D?style=flat-square&logo=swagger&logoColor=black)
+![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat-square&logo=docker&logoColor=white)
+
+**Web**
+
+![Next.js](https://img.shields.io/badge/Next.js-000000?style=flat-square&logo=nextdotjs&logoColor=white)
+![React](https://img.shields.io/badge/React-20232A?style=flat-square&logo=react&logoColor=61DAFB)
+![TailwindCSS](https://img.shields.io/badge/Tailwind-38B2AC?style=flat-square&logo=tailwind-css&logoColor=white)
+
+**Mobile**
+
+![Kotlin](https://img.shields.io/badge/Kotlin_Multiplatform-7F52FF?style=flat-square&logo=kotlin&logoColor=white)
+![Android Studio](https://img.shields.io/badge/Android_Studio-3DDC84?style=flat-square&logo=android-studio&logoColor=white)
+
+**Desktop**
+
+![C#](https://img.shields.io/badge/C%23-239120?style=flat-square&logo=c-sharp&logoColor=white)
+![.NET](https://img.shields.io/badge/.NET-512BD4?style=flat-square&logo=dotnet&logoColor=white)
+![WinUI](https://img.shields.io/badge/WinUI_3-0078D4?style=flat-square&logo=windows&logoColor=white)
+
+**Infrastructure**
+
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=flat-square&logo=postgresql&logoColor=white)
+![Cloudflare](https://img.shields.io/badge/Cloudflare_R2-F38020?style=flat-square&logo=cloudflare&logoColor=white)
+![Neon](https://img.shields.io/badge/Neon-00E599?style=flat-square&logo=neon&logoColor=black)
+![pnpm](https://img.shields.io/badge/pnpm-F69220?style=flat-square&logo=pnpm&logoColor=white)
+
+<br/>
+
+---
+
+<sub>Technical Documentation &nbsp;·&nbsp; Proyecto Intermodular &nbsp;·&nbsp; Developed by <strong>Óscar</strong></sub>
+
+<br/>
+
+</div>
+
+---
+
+## Table of Contents
+
+- [System architecture](#system-architecture)
+  - [General connection scheme of the 3 apps with the API and the database](#general-connection-scheme-of-the-3-apps-with-the-api-and-the-database)
+    - [Architecture Analysis](#architecture-analysis)
+  - [Main technologies used in each part](#main-technologies-used-in-each-part)
+- [REST-API Development](#rest-api-development)
+  - [Technical stack justification](#technical-stack-justification)
+  - [Endpoint list and dynamic documentation with Swagger](#endpoint-list-and-dynamic-documentation-with-swagger)
+  - [HTTP methods and REST semantics](#http-methods-and-rest-semantics)
+  - [Infrastructure and dockerization](#infrastructure-and-dockerization)
+  - [Authentication and critical services](#authentication-and-critical-services)
+  - [Ejemplos de peticiones y respuestas](#ejemplos-de-peticiones-y-respuestas)
+    - [Sign In](#sing-in)
+    - [Create post](#create-post)
+  - [Implementation notes](#implementation-notes)
+- [Database](#database)
+  - [Persistence architecture](#persistence-architecture)
+  - [Entity-Relationship Diagram](#entity-relationship-diagram)
+  - [Migration management](#migration-management)
+- [Web Application](#web-application)
+  - [Technological justification and design decisions](#technological-justification-and-design-decisions)
+  - [Project structure and patterns](#project-structure-and-patterns)
+  - [Communication with the backend and data security](#communication-with-the-backend-and-data-security)
+  - [Animations and performance](#animations-and-performance)
+- [Mobile application](#mobile-application)
+  - [Technical stack justification](#technical-stack-justification-1)
+  - [Architecture and code structure](#architecture-and-code-structure)
+  - [Connection with the API](#connection-with-the-api)
+  - [Multimedia and UI resource management](#multimedia-and-ui-resource-management)
+  - [Technical quality and sustainability](#technical-quality-and-sustainability)
+- [Desktop application](#desktop-application)
+  - [Technological justification and design decisions](#technological-justification-and-design-decisions-1)
+  - [Project structure and patterns](#project-structure-and-patterns-1)
+  - [Connection with the API and data security](#connection-with-the-api-and-data-security)
+  - [Technology used](#technology-used)
+- [Security and data protection](#security-and-data-protection)
+  - [Critical protection mechanisms](#critical-protection-mechanisms)
+  - [User management and access control](#user-management-and-access-control)
+  - [Secrets management and environment variables](#secrets-management-and-environment-variables)
+  - [Additional best practices and pending items](#additional-best-practices-and-pending-items)
+- [Instance deployment](#instance-deployment)
+  - [REST-API](#rest-api)
+  - [Database](#database-1)
+  - [Web application](#web-application-1)
+  - [Mobile application](#mobile-application-1)
+  - [Desktop application](#desktop-application-1)
+- [Usage and maintenance guide](#usage-and-maintenance-guide)
+  - [Step 1: Clone the repositories](#step-1-clone-the-repositories)
+  - [Step 2: Environment variables](#step-2--environment-variables)
+  - [Step 3: Phased startup](#step-3-phased-startup)
+  - [Paso 4: Final part](#paso-4-final-part)
+  - [Frequent problems](#frequent-problems)
+    - [The mystery of the Neon connection](#the-mystery-of-the-neon-connection)
+    - [The Ktor jam when uploading images to R2](#the-ktor-jam-when-uploading-images-to-r2)
+    - [The learning curve](#the-learning-curve)
+- [Future improvements](#future-improvements)
+- [My thoughts on the project](#my-thoughts-on-the-project)
+- [Resources and Documentation Used](#resources-and-documentation-used)
+  - [Backend & Infrastructure (API-REST)](#backend--infrastructure-api-rest)
+  - [Web Application (Frontend)](#web-application-frontend)
+  - [Mobile Application (Android/KMP)](#mobile-application-androidkmp)
+
+---
 
 ## System architecture
 
