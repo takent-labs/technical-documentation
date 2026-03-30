@@ -198,8 +198,10 @@ It is worth noting that, although I have used specific environments for mobile a
 
 <br/>
 
+> [!TIP]
+> Although the mobile and desktop development was carried out in Android Studio and Visual Studio with C# and WinUI, the API architecture is designed to be client-agnostic, facilitating a future migration to React Native/Tauri as mentioned in the introduction.
 
-Although the mobile and desktop development was carried out in Android Studio and Visual Studio with C# and WinUI, the API architecture is designed to be client-agnostic, facilitating a future migration to React Native/Tauri as mentioned in the introduction.
+---
 
 ## REST-API Development
 
@@ -257,9 +259,11 @@ src/
 
 To eliminate the "it works on my machine" factor, I have implemented a professional containerization strategy:
 
-- **Docker Multi-Stage:** I have designed a staged **Dockerfile**. The build stage generates the necessary code, while the execution stage delivers a final image based on `node:24-bookworm-slim`. This drastically reduces image size and improves security by removing unnecessary tools in production.
-- **Docker Compose:** I use `compose.yaml` to orchestrate the container, manage environment variables, and ensure the service restarts automatically.
-- **Optimization:** Through `.dockerignore`, I ensure that sensitive files (like `.env`) or unnecessary ones (local `node_modules`) do not clutter the production image.
+| Mechanism | Purpose |
+|:---|:---|
+| **Docker Multi-Stage** | The build stage generates the necessary code, while the execution stage delivers a final image based on `node:24-bookworm-slim`. This drastically reduces image size and improves security by removing unnecessary tools in production. |
+| **Docker Compose** | Orchestrates the container via `compose.yaml`, manages environment variables, and ensures the service restarts automatically. |
+| **Optimization** | Through `.dockerignore`, sensitive files (like `.env`) or unnecessary ones (local `node_modules`) do not clutter the production image. |
 
 ### **Authentication and critical services**
 
@@ -269,9 +273,10 @@ To eliminate the "it works on my machine" factor, I have implemented a professio
 
 API security is non-negotiable. I have implemented a **Stateless** authentication system based on **JWT (JSON Web Tokens)**:
 
-- After validating credentials with **Bcrypt** in the Auth service, the API issues a signed token.
-- I have developed NestJS **Guards** that intercept requests to private endpoints. If the client does not present a valid token in the `Authorization: Bearer <token>` header, the API automatically denies access.
-- The token contains only the minimum necessary information, such as the `sub` or User ID, avoiding the exposure of sensitive data in network traffic.
+> [!IMPORTANT]
+> - After validating credentials with **Bcrypt** in the Auth service, the API issues a signed token.
+> - I have developed NestJS **Guards** that intercept requests to private endpoints. If the client does not present a valid token in the `Authorization: Bearer <token>` header, the API automatically denies access.
+> - The token contains only the minimum necessary information, such as the `sub` or User ID, avoiding the exposure of sensitive data in network traffic.
 
 ### **Examples of requests and responses**
 
@@ -361,8 +366,6 @@ Connection: close
 
 ---
 
-
-
 #### Create post
 
 **Request Body:**
@@ -373,12 +376,12 @@ Content-Type: application/json
 Authorization: Bearer {{access_token}}
 
 {
-  "content": "La era del 'Cloud-Only' está llegando a su fin. 🏠 He migrado toda mi infraestructura crítica de SaaS comerciales a instancias auto-alojadas usando Docker y Coolify. Tener el control total de mis datos y de mi base de datos Postgres no solo me ahorra cientos de dólares al mes, sino que me da una privacidad que ninguna Big Tech puede garantizar. El self-hosting ya no es un hobby, es una necesidad profesional en 2026. 🔐",
+  "content": "La era del 'Cloud-Only' está llegando a su fin. He migrado toda mi infraestructura crítica de SaaS comerciales a instancias auto-alojadas usando Docker y Coolify. Tener el control total de mis datos y de mi base de datos Postgres no solo me ahorra cientos de dólares al mes, sino que me da una privacidad que ninguna Big Tech puede garantizar. El self-hosting ya no es un hobby, es una necesidad profesional en 2026.",
   "hashtags": ["SelfHosting", "OpenSource", "Docker", "Privacy", "DevOps"]
 }
 ```
 
-**Response 200 OK:**
+**Response 201 Created:**
 
 ```json
 HTTP/1.1 201 Created
@@ -396,7 +399,7 @@ Connection: close
 {
   "id": "7cd6c499-098f-4e43-9235-fb015348855b",
   "userId": "d56b0fa8-58ae-4cea-b673-88780d9e2ff7",
-  "content": "La era del 'Cloud-Only' está llegando a su fin. 🏠 He migrado toda mi infraestructura crítica de SaaS comerciales a instancias auto-alojadas usando Docker y Coolify. Tener el control total de mis datos y de mi base de datos Postgres no solo me ahorra cientos de dólares al mes, sino que me da una privacidad que ninguna Big Tech puede garantizar. El self-hosting ya no es un hobby, es una necesidad profesional en 2026. 🔐",
+  "content": "La era del 'Cloud-Only' está llegando a su fin. He migrado toda mi infraestructura crítica de SaaS comerciales a instancias auto-alojadas usando Docker y Coolify. Tener el control total de mis datos y de mi base de datos Postgres no solo me ahorra cientos de dólares al mes, sino que me da una privacidad que ninguna Big Tech puede garantizar. El self-hosting ya no es un hobby, es una necesidad profesional en 2026.",
   "imageUrl": null,
   "createdAt": "2026-03-29T19:55:09.431Z",
   "updatedAt": "2026-03-29T19:55:09.431Z"
@@ -404,8 +407,6 @@ Connection: close
 ```
 
 ---
-
-</aside>
 
 ### Implementation notes
 
@@ -451,6 +452,10 @@ Furthermore, I have decided that the database should grow organically with the a
 
 - **Version Control:** Every change in the data model generates a SQL file in the `prisma/migrations` folder. These files are synchronized on GitHub, allowing any developer or the deployment server to replicate the exact same structure deterministically.
 - **Prisma Migrate:** I use the `pnpx prisma migrate dev` command during development. This ensures that the database evolves alongside the code, allowing for change audits and providing the ability to perform rollbacks if necessary.
+
+```bash
+pnpx prisma migrate dev
+```
 
 ## **Web Application**
 
@@ -500,10 +505,15 @@ takent-web-app/
 
 The communication architecture does not expose logic to the client; everything is processed in an intermediate server layer to ensure maximum security:
 
-- **Server Actions:** Instead of performing traditional `fetch` requests from the browser, I use **Server Actions**. This allows asynchronous functions to be executed directly on the Next.js server. In this way, the logic for form submissions or profile updates never reaches the client, reducing the attack surface and improving performance by sending less JavaScript to the browser.
-- **Route Handlers (API Proxy):** For complex data retrieval requests, I implement **Route Handlers**. These act as a **secure Proxy** that hides the real URL of my NestJS API, allowing for the addition of security headers and data transformation before it reaches the interface.
-- **Session Management (HttpOnly Cookies):** Complying with the most demanding security standards, JWT tokens are **never stored in LocalStorage**, as it is vulnerable to XSS attacks. Instead, they are managed via cookies with the **HttpOnly** flag from the server. This ensures the token is only accessible for HTTP requests and remains invisible to any malicious script on the client side.
-- **Robust Validation with Zod:** I use **Zod** as the schema validation engine. By sharing the same types as the backend, I ensure that forms (managed with **React Hook Form**) only send data that strictly complies with what the API expects, avoiding unnecessary network errors.
+| Mechanism | Description |
+|:---|:---|
+| **Server Actions** | Asynchronous functions executed directly on the Next.js server. Form submissions and profile updates never reach the client, reducing the attack surface and sending less JavaScript to the browser. |
+| **Route Handlers (API Proxy)** | Act as a **secure Proxy** that hides the real URL of the NestJS API, allowing security headers and data transformation before it reaches the interface. |
+| **Session Management (HttpOnly Cookies)** | JWT tokens are **never stored in LocalStorage**. They are managed via cookies with the **HttpOnly** flag, making the token invisible to any malicious script on the client side. |
+| **Robust Validation with Zod** | **Zod** acts as the schema validation engine. Forms (managed with **React Hook Form**) only send data that strictly complies with what the API expects, avoiding unnecessary network errors. |
+
+> [!WARNING]
+> Never store JWT tokens in `localStorage` — it is vulnerable to XSS attacks. Always use `HttpOnly` cookies managed from the server.
 
 ### **Animations and performance**
 
@@ -552,6 +562,9 @@ To communicate with the server, I don't send loose requests; I have set up a cen
 
 By separating the logic into `commonMain`, I have achieved a software design where 80% of the code is reusable. This is not just an improvement over outdated resources, but a commitment to **sustainable programming**: less code to maintain means fewer errors and a much longer project lifespan.
 
+> [!TIP]
+> By keeping all shared logic in `commonMain`, a future iOS build requires zero rework of the network, auth, or data layers — only the platform-specific UI needs to be added.
+
 ## Desktop application
 
 For the desktop frontend, my goal has been to build a **User Experience** that feels native, secure, and visually consistent with the web platform. I have opted for **WinUI 3 (Windows App SDK)** as the base framework, not only for its deep integration with the Windows 11 design language and modern rendering pipeline, but for its ability to deliver **truly native performance** without the overhead of a web-based shell. This allows the application to feel like a first-class Windows citizen while sharing the same brand identity as the web frontend.
@@ -598,9 +611,14 @@ I chose **WinUI 3** because it is the evolution of Microsoft interfaces. It allo
 - **Performance:** Being native, resource consumption is highly efficient for an app that shouldn't devour the user's RAM.
 - **Aesthetics:** Integration with the operative system is seamless, including transparencies, animations, and controls that follow the Windows 11 design language.
 
+---
+
 ## Security and data protection
 
 In an interconnected ecosystem like this project, security cannot be a superficial layer; it must be integrated into the very design of the architecture. I have dedicated significant time to implementing a **defense-in-depth** strategy, securing every touchpoint between the client, the server, and the database, and proactively mitigating the most common **OWASP Top 10** vulnerabilities.
+
+> [!CAUTION]
+> Security is not a feature — it is a design constraint applied from day one across every layer of this system.
 
 ### Critical protection mechanisms
 
@@ -616,11 +634,13 @@ To shield the system to the maximum, I have implemented technical solutions agai
 
 In a distributed environment, controlling who can communicate with the API is vital. For this reason, I have implemented a series of strict **CORS** configurations (although currently commented out for testing purposes), a permission system based on the **Role-Based Access Control** model, and functionalities such as password hashing…
 
-- **Password Storage:** Passwords are processed using **Bcrypt**, with an appropriate cost factor (salt). This ensures that, even in the event of a data breach, the information remains unreadable and resistant to dictionary attacks. Initially, I considered the possibility of using one of today's most advanced encryption systems, **Argon2id**, but in my case, it was going to bring more trouble than it was worth. Being such a robust system, the server resource consumption would have been excessive. Therefore, having a minimal budget and just starting out, I opted for Bcrypt, which remains a good solution, though not as powerful as Argon. Even so, I have left the system prepared to make the jump to this technology when it becomes viable or when there is a desire to reinforce the level of security and encryption.
-- **Authorization via Guards:** For this functionality, I have developed custom **Guards** for the controller endpoints. These interceptors check the user's role within the **JWT** payload before allowing access to the business logic, denying access (**401/403**) to any unauthorized user at the controller level.
-- **Rate Limiting:** To prevent brute-force attacks on the login or spam in post creation, I have configured request limits per IP, guaranteeing service availability against abuse.
-- **Origin Whitelist:** The API is not open to the entire internet. I have configured a whitelist that only allows requests from the official web application domains and the controlled local development environment. This prevents **Cross-Site** attacks where an external site attempts to make requests on behalf of the user.
-- **Method and Header Restriction:** I limit not only the "who" but also the "what." The CORS policy restricts the permitted HTTP methods (GET, POST, PATCH, DELETE) and the headers the client can send, minimizing the exposure surface to malicious headers.
+| Control | Implementation |
+|:---|:---|
+| **Password Storage** | Passwords are processed using **Bcrypt** with an appropriate cost factor (salt). Resistant to dictionary attacks even in a data breach. The system is prepared to migrate to **Argon2id** when server resources allow it. |
+| **Authorization via Guards** | Custom NestJS **Guards** intercept requests and check the user role in the **JWT** payload before granting access. Unauthorized requests are denied with **401/403** at the controller level. |
+| **Rate Limiting** | Request limits per IP prevent brute-force attacks on login endpoints and spam in post creation. |
+| **Origin Whitelist** | A strict allowlist ensures only official application domains and the local development environment can communicate with the API, preventing Cross-Site request attacks. |
+| **Method and Header Restriction** | The CORS policy restricts permitted HTTP methods (`GET`, `POST`, `PATCH`, `DELETE`) and client-sendable headers, minimizing the exposure surface. |
 
 ### **Secrets management and environment variables**
 
@@ -636,7 +656,9 @@ The portability and security of credentials are managed through a system of envi
 - **Cloudflare Implementation:** From the beginning, my idea was to implement Cloudflare to add an extra layer of security to the central server, but I have not done so yet. The only Cloudflare service I have used is R2, so this remains pending, although it is a very good practice for protecting the backend.
 - **Selection of Servers in Switzerland:** When configuring database instances on platforms like Neon or Supabase, or when setting up a VPS, the ideal choice is to opt for regions in Switzerland. This choice is strategic due to its advanced privacy legislation. Therefore, all the project deployments I have made and will make will be precisely in this region, taking advantage of both geographical proximity and the country's high commitment to security and personal data management.
 
-**Development environment security**
+---
+
+### Development environment security
 
 Maintaining a secure development environment is also very important for keeping our service as reliable as possible. As a preventive security measure in my workflow, I have opted to disable the global execution of scripts in the **pnpm** dependency management system. With this configuration, I mitigate the risk of attacks through infected dependencies (**supply chain attacks**) that seek to execute malicious code to compromise credentials or extract environment variables from the system.
 
@@ -644,9 +666,8 @@ Maintaining a secure development environment is also very important for keeping 
 pnpm config set ignore-scripts true --global
 ```
 
+> [!WARNING]
 > If I need to execute any script, I grant permissions manually after reviewing it in detail.
-> 
-</aside>
 
 ## Instance deployment
 
@@ -696,6 +717,16 @@ Just like with the APK, the installer will be available for direct download. A k
 
 First of all, we must ensure we have the engine for all of this installed: **Node.js** (I recommend the LTS version), **pnpm** (our package manager for security and speed), **.NET SDK 8** for the desktop part, **Android Studio** for the mobile part, and **Docker** to spin up the API container.
 
+| Prerequisite | Purpose |
+|:---|:---|
+| **Node.js** (LTS) | Runtime for the API and web frontend |
+| **pnpm** | Fast, secure package manager |
+| **.NET SDK 8** | Required for the desktop (WinUI 3) application |
+| **Android Studio** | IDE and emulator for the mobile application |
+| **Docker** | Container engine to run the API locally |
+
+---
+
 ### **Step 1: Clone the repositories**
 
 Once we have the repos, the first thing is to install the dependencies.
@@ -705,15 +736,15 @@ In the web repo, we will run:
 pnpm install
 ```
 
-### **Step 2:  Environment variables**
+### **Step 2: Environment variables**
 
 This is the point where everything usually fails. In the root of both the API and the Web, you will find an `.env.example` file. Copy it and rename it to `.env`.
 
 - **Database:** Here you will need to put your Neon connection string.
 - **Cloudflare:** You will need your R2 bucket keys so that the images don't appear broken.
 
+> [!CAUTION]
 > It is absolutely important not to upload these files to GitHub to avoid any surprises.
-> 
 
 ### **Step 3: Phased startup**
 
@@ -721,14 +752,14 @@ Do not try to start everything at once. Follow this order:
 
 1. **The Database:** We configure Neon.
 2. **The Backend:** Enter the server folder and run the following command:
-    
+
     ```bash
     docker compose up --build
     ```
-    
+
 3. **The Frontend:** Now we can launch the web with `pnpm dev` and the Android or iOS emulator.
 
-### **Paso 4: Final part**
+### **Step 4: Final part**
 
 For the mobile application, we open the root folder in **Android Studio**. We let **Gradle** download everything necessary and, once it finishes, we select the virtual device and hit "Play". This app works on both iOS and Android.
 
@@ -774,6 +805,8 @@ My main suggestion for the future is to **bet on complete creative freedom.** I 
 I agree that demanding technical minimums should be established—such as limiting the use of *Backend-as-a-Service* platforms that do everything for you. The essence of this course is learning to build the backend and clients from scratch.
 
 **My proposal is clear:** define the **"what"** (own backend, multiple clients, security), but allow total freedom in the **"how."** Let the student decide which infrastructure to use and which tech stack they are passionate about. That ability to research and delve deeper on one's own is, ultimately, the most valuable skill we can take into the professional world.
+
+---
 
 ## Resources and documentation used
 
