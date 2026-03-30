@@ -153,13 +153,11 @@ As can be seen in the previous scheme, the full weight of the logic rests on a s
 - **Files (R2):** Images and documents never touch the central server; they go directly to **Cloudflare R2**, which is S3-compatible. This frees up bandwidth and provides practically infinite storage. Doing it the way it was proposed in class seems like a bad practice to me: storage costs would skyrocket, I wouldn't be able to easily use a CDN to serve the images, and the database would grow exponentially. Furthermore, Postgres is not designed to move gigabytes of binary data efficiently.
 - **Deployment:** The entire backend runs in **Docker** containers. It is the only way to guarantee that "it works on my machine" also holds true when deploying to production.
 
-> 
-> 
-> 
+> [!IMPORTANT]
 > To avoid wasting time on infrastructure that others already do better, I will delegate two critical points:
 > 
-> - **Payments (Lemon Squeezy):** It handles the entire payment gateway and invoice management, taking the legal compliance of banking data off my hands.
-> - **Email (Resend):** I use it for sending transactional emails, ensuring that messages land in the inbox and not in the spam folder.
+> * **Payments (Lemon Squeezy):** It handles the entire payment gateway and invoice management, taking the legal compliance of banking data off my hands.
+> * **Email (Resend):** I use it for sending transactional emails, ensuring that messages land in the inbox and not in the spam folder.
 
 ### **Main technologies used in each part**
 
@@ -550,14 +548,9 @@ To communicate with the server, I don't send loose requests; I have set up a cen
 - **Peekaboo:** An advanced implementation for selecting images from the gallery, allowing the user to upload content to posts intuitively and fluidly.
 - **Konform:** **Type-safe** form validation. Before a request leaves for the API, the data is validated on the client side, saving latency and server computation.
 
-<aside>
-<img src="/icons/info-alternate_gray.svg" alt="/icons/info-alternate_gray.svg" width="40px" />
-
 ### **Technical quality and sustainability**
 
 By separating the logic into `commonMain`, I have achieved a software design where 80% of the code is reusable. This is not just an improvement over outdated resources, but a commitment to **sustainable programming**: less code to maintain means fewer errors and a much longer project lifespan.
-
-</aside>
 
 ## Desktop application
 
@@ -643,9 +636,6 @@ The portability and security of credentials are managed through a system of envi
 - **Cloudflare Implementation:** From the beginning, my idea was to implement Cloudflare to add an extra layer of security to the central server, but I have not done so yet. The only Cloudflare service I have used is R2, so this remains pending, although it is a very good practice for protecting the backend.
 - **Selection of Servers in Switzerland:** When configuring database instances on platforms like Neon or Supabase, or when setting up a VPS, the ideal choice is to opt for regions in Switzerland. This choice is strategic due to its advanced privacy legislation. Therefore, all the project deployments I have made and will make will be precisely in this region, taking advantage of both geographical proximity and the country's high commitment to security and personal data management.
 
-<aside>
-<img src="/icons/info-alternate_gray.svg" alt="/icons/info-alternate_gray.svg" width="40px" />
-
 **Development environment security**
 
 Maintaining a secure development environment is also very important for keeping our service as reliable as possible. As a preventive security measure in my workflow, I have opted to disable the global execution of scripts in the **pnpm** dependency management system. With this configuration, I mitigate the risk of attacks through infected dependencies (**supply chain attacks**) that seek to execute malicious code to compromise credentials or extract environment variables from the system.
@@ -665,14 +655,16 @@ pnpm config set ignore-scripts true --global
 For the API deployment, my first choice has been to use Render's Web Service. Why? Mainly because it allows me to deploy my Docker container in a very simple way.
 Render is great because it handles traffic and scaling almost automatically, connecting directly to my repository. This takes away the mess of configuring the server from scratch every time I make a change. By using Docker, I ensure that "if it works on my machine, it works on Render," avoiding those last-minute surprises with Node versions or system dependencies. It is a balanced solution: I maintain control of my environment with the container, but let Render handle availability.
 
-https://render.com/
+> [!NOTE]
+> https://render.com/
 
 ### Database
 
 Regarding the database, I decided to move away from the traditional "install PostgreSQL on a server" scheme and opted for Neon. Being a Serverless database service, I rid myself of database engine maintenance and the headaches of managing storage manually.
 What interests me most about Neon, aside from its free tier, is its "autoscaling" capability. If my API has a usage spike, the database responds without breaking a sweat; and if no one is using it, it pauses, which is ideal for optimizing resources. Additionally, the ease of managing data branches (branching) allows me to test migrations or schema changes without the risk of breaking the main database. It is, undoubtedly, the smartest option for a modern project where agility is key.
 
-https://neon.com/
+> [!NOTE]
+> https://neon.com/
 
 ### Web application
 
@@ -685,9 +677,9 @@ By using Coolify as an orchestrator on my own server, I get a deployment experie
 
 I am aware that this path has its challenges. By managing my own infrastructure, I have to be much more cautious with server security and configure every detail by hand. Additionally, since Coolify does not include a native CDN as such, I have to integrate external services like Cloudflare to guarantee loading speed and protect the backend. But the extra effort is worth it: at the end of the day, I am the sole owner of my data and my infrastructure, something that has enormous technical value to me.
 
-https://vercel.com/
-
-https://coolify.io/
+> [!NOTE]
+> https://vercel.com/
+> https://coolify.io/
 
 ### Mobile application
 
@@ -759,6 +751,7 @@ I’m still investigating the exact reason, but I suspect it’s a stream manage
 Beyond the technical errors, the greatest challenge has been the volume of information. I’ve had to learn languages like Kotlin and TypeScript, and master frameworks like Next.js and NestJS almost from scratch.
 Although these technologies derive from what we’ve seen in class (Java, JavaScript…), implementing them with JWT, advanced security, and modern architectures has been a constant challenge. Balancing the official class syllabus with self-learning this stack and separate personal projects has been brutal pressure, but it helped me realize something: the most important thing isn't knowing a language by heart, but having a solid programming foundation that allows you to adapt to any technology thrown at you.
 
+> [!IMPORTANT]
 > **In conclusion:** I’ve gone through moments of great frustration, but every error has taught me more than any code that worked on the first try. I leave this project with the confidence that I can face a real work environment and adapt to any technology they give me—except maybe COBOL.
 > 
 
