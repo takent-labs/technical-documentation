@@ -611,9 +611,8 @@ The communication architecture prioritizes security and resilience at every laye
 - **Session persistence:** On every application launch, `AuthService.GetStoredToken()` queries the `PasswordVault` before rendering the authentication forms. If a valid token is found, the application navigates directly to the feed, eliminating unnecessary re-authentication and matching the seamless session behavior of the web frontend's HttpOnly cookie strategy.
 - **Feed updates:** After a post is successfully created, the returned `Post` object is inserted at position zero of the `ObservableCollection<Post>` bound to the feed's `ItemsControl`, making the new post appear instantly at the top without triggering a full feed reload. If the API does not return the created post in its response body, a full `GET /api/v1/posts` reload is performed as a fallback.
 
-### Animations and native feel
-
-To make the application feel polished and responsive, every interactive control uses `VisualStateManager` storyboards with `ColorAnimation` transitions. Button hover states respond in `150ms`, press states in `80ms`, and input focus triggers a border color shift from `#E5DDD4` to `#292524` via WinUI 3's built-in `TextControlBorderBrushFocused` theme resource — producing micro-interactions that elevate the perceived quality of the interface without relying on third-party animation libraries.
+> [!NOTE]
+> To make the application feel polished and responsive, every interactive control uses `VisualStateManager` storyboards with `ColorAnimation` transitions. Button hover states respond in `150ms`, press states in `80ms`, and input focus triggers a border color shift from `#E5DDD4` to `#292524` via WinUI 3's built-in `TextControlBorderBrushFocused` theme resource — producing micro-interactions that elevate the perceived quality of the interface without relying on third-party animation libraries.
 ---
 
 ## Security and data protection
